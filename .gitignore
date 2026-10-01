@@ -1,0 +1,17 @@
+# Fetched from the EasyCRM repo on every build by scripts/fetch-docs.mjs. The documentation
+# lives in that repo, with the code it describes - this folder is a build artefact and must
+# never be committed, or the two would drift and nobody would know which was current.
+docs/
+
+build/
+.docusaurus/
+node_modules/
+
+# Local credentials. DOCS_TOKEN can read a private repo; a stray .env is the realistic way
+# one ends up in git history.
+.env
+.env.local
+.env.*.local
+
+*.log
+.DS_Store

@@ -1,7 +1,10 @@
 # EasyCRM API Documentation
 
 The customer-facing documentation site for the EasyCRM portal API, at
-**https://hussnain-utechhub.github.io/easycrm-api-docs/** until a custom domain is attached.
+**https://umerghouri.github.io/easycrm-api-docs/** until a custom domain is attached.
+
+The repo is owned by `UmerGhouri` (the EasyCRM owner); the original developer is a collaborator.
+The look is the client's own design, recorded in [DESIGN.md](./DESIGN.md).
 
 ## Where the content actually lives
 
@@ -27,8 +30,11 @@ It also means this site's token only needs read access to one private repo, not 
 
 ## Setup
 
-1. Repo variable `DOCS_ORG` = `hussnain-utechhub`, `DOCS_REPO` = `EasyCRM`.
-2. Repo secret `DOCS_SYNC_TOKEN` = a fine-grained PAT with **Contents: Read** on **EasyCRM only**.
+1. Repo variable `DOCS_ORG` = `UmerGhouri`, `DOCS_REPO` = `EasyCRM` (our repo, where every
+   developer release is merged - never the developer's own fork, so the public site cannot
+   depend on access he controls).
+2. Repo secret `DOCS_SYNC_TOKEN` = a fine-grained PAT **owned by UmerGhouri** with
+   **Contents: Read** on **UmerGhouri/EasyCRM only**.
 3. Settings → Pages → Source: **GitHub Actions**.
 4. Repo variable `PUBLISH_TARGET` = `github-pages`. Nothing is published until this is set.
 

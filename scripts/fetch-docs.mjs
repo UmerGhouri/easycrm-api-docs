@@ -13,7 +13,7 @@
  *
  * Env:
  *   DOCS_TOKEN      token with READ access to the source repo (required - it is private)
- *   DOCS_ORG        owner of the source repo      (default: hussnain-utechhub)
+ *   DOCS_ORG        owner of the source repo      (default: UmerGhouri)
  *   DOCS_REPO       source repo                   (default: EasyCRM)
  *   DOCS_BRANCH     branch to read docs from      (default: main)
  *   SITE_REPO_URL   this repo, for the landing page's Edit link
@@ -29,10 +29,10 @@ import { rewriteEscapingLinks } from "./rewrite-links.mjs";
 const INCLUDE = ["docs/api-integration", "docs/api"];
 
 const TOKEN  = process.env.DOCS_TOKEN || process.env.GITHUB_TOKEN;
-const ORG    = process.env.DOCS_ORG    || "hussnain-utechhub";
+const ORG    = process.env.DOCS_ORG    || "UmerGhouri";
 const REPO   = process.env.DOCS_REPO   || "EasyCRM";
 const BRANCH = process.env.DOCS_BRANCH || "main";
-const SITE_REPO_URL = process.env.SITE_REPO_URL || "https://github.com/hussnain-utechhub/easycrm-api-docs";
+const SITE_REPO_URL = process.env.SITE_REPO_URL || "https://github.com/UmerGhouri/easycrm-api-docs";
 const OUT = path.resolve("docs");
 
 if (!TOKEN) { console.error("DOCS_TOKEN is required: the source repo is private."); process.exit(1); }

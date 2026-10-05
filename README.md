@@ -1,7 +1,10 @@
 # EasyCRM API Documentation
 
 The customer-facing documentation site for the EasyCRM portal API, at
-**https://hussnain-utechhub.github.io/easycrm-api-docs/** until a custom domain is attached.
+**https://umerghouri.github.io/easycrm-api-docs/** until a custom domain is attached.
+
+The repo is owned by `UmerGhouri` (the EasyCRM owner); the original developer is a collaborator.
+The look is the client's own design, recorded in [DESIGN.md](./DESIGN.md).
 
 ## Where the content actually lives
 
@@ -27,8 +30,15 @@ It also means this site's token only needs read access to one private repo, not 
 
 ## Setup
 
-1. Repo variable `DOCS_ORG` = `hussnain-utechhub`, `DOCS_REPO` = `EasyCRM`.
-2. Repo secret `DOCS_SYNC_TOKEN` = a fine-grained PAT with **Contents: Read** on **EasyCRM only**.
+1. Repo variable `DOCS_ORG` = `UmerGhouri`, `DOCS_REPO` = `EasyCRM` (our repo, where every
+   developer release is merged - never the developer's own fork, so the public site cannot
+   depend on access he controls).
+2. Repo secret `DOCS_DEPLOY_KEY` = the private half of a **read-only deploy key** added to
+   `UmerGhouri/EasyCRM` (Settings, Deploy keys). Scoped to that one repo and tied to no
+   person. To rotate: `ssh-keygen -t ed25519 -N "" -f k`, `gh repo deploy-key add k.pub -R
+   UmerGhouri/EasyCRM`, `gh secret set DOCS_DEPLOY_KEY -R UmerGhouri/easycrm-api-docs < k`,
+   delete the old key, delete the local files. A fine-grained PAT in `DOCS_SYNC_TOKEN`
+   still works as a fallback when no deploy key is set.
 3. Settings → Pages → Source: **GitHub Actions**.
 4. Repo variable `PUBLISH_TARGET` = `github-pages`. Nothing is published until this is set.
 
@@ -45,7 +55,7 @@ Then Settings → Pages → Custom domain, and tick Enforce HTTPS once the certi
 ## Running it locally
 
 ```bash
-export DOCS_TOKEN=github_pat_...   # Contents: Read on EasyCRM
+export DOCS_TOKEN=$(gh auth token)   # any token that can read UmerGhouri/EasyCRM
 npm install
 npm start
 ```

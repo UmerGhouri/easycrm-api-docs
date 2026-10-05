@@ -23,9 +23,9 @@ const config = {
   // too high and the site 404s. On a custom domain the site is served at the root, so it
   // becomes "/". Both are repo VARIABLES and the workflow passes them, so moving to the
   // customer's domain is a settings change rather than a commit.
-  url: process.env.DOCS_SITE_URL || "https://hussnain-utechhub.github.io",
+  url: process.env.DOCS_SITE_URL || "https://umerghouri.github.io",
   baseUrl: process.env.DOCS_BASE_URL || "/easycrm-api-docs/",
-  organizationName: "hussnain-utechhub",
+  organizationName: "UmerGhouri",
   projectName: "easycrm-api-docs",
 
   // Deliberately indexable, unlike the internal site. These pages are meant to be found by
@@ -98,12 +98,19 @@ const config = {
       { language: "nodejs", logoClass: "nodejs", variant: "Axios" },
       { language: "php", logoClass: "php", variant: "cURL" },
     ],
+    // Client design (Outbound Operators, see DESIGN.md): the brand is the client; the site
+    // label "EasyCRM API Documentation" is drawn by CSS after the brand. The title here is the
+    // FIRST line of the wordmark; custom.css adds the second ("OPERATORS") beneath it.
     navbar: {
-      title: "EasyCRM API",
-      items: [{ type: "docSidebar", sidebarId: "main", position: "left", label: "Documentation" }],
+      title: "OUTBOUND",
+      logo: { alt: "Outbound Operators", src: "img/logo.svg", srcDark: "img/logo-dark.svg", width: 38, height: 38 },
+      items: [
+        { to: "/api-integration/", position: "right", label: "API Integration" },
+        { to: "/api/easycrm-portal-api", position: "right", label: "API Reference" },
+      ],
     },
     footer: {
-      style: "dark",
+      style: "light",
       copyright: `EasyCRM API Documentation · last built ${new Date().getFullYear()}`,
     },
     colorMode: { respectPrefersColorScheme: true },

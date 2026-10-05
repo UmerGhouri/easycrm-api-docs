@@ -50,11 +50,28 @@ jobs:
           DOCS_ORG: ${{ vars.DOCS_ORG }}
           DOCS_REPO: ${{ vars.DOCS_REPO }}
           DOCS_BRANCH: ${{ vars.DOCS_BRANCH }}
-          # Fine-grained PAT with Contents: Read on EasyCRM ONLY. The built-in GITHUB_TOKEN
-          # cannot read another repo, which is why this secret exists.
+          # The built-in GITHUB_TOKEN cannot read another repo, so one of two credentials does:
+          #
+          #   DOCS_DEPLOY_KEY  (preferred) the private half of a READ-ONLY deploy key on the
+          #                    source repo. Scoped to that one repo, tied to no person, never
+          #                    expires - and if it leaked it could only read what this site
+          #                    publishes anyway.
+          #   DOCS_SYNC_TOKEN  (fallback) a fine-grained PAT with Contents: Read on the source repo.
+          DOCS_DEPLOY_KEY: ${{ secrets.DOCS_DEPLOY_KEY }}
           DOCS_TOKEN: ${{ secrets.DOCS_SYNC_TOKEN }}
           SITE_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-        run: npm run fetch
+        run: |
+          if [ -n "$DOCS_DEPLOY_KEY" ]; then
+            mkdir -p ~/.ssh && chmod 700 ~/.ssh
+            echo "$DOCS_DEPLOY_KEY" > ~/.ssh/docs_deploy_key
+            chmod 600 ~/.ssh/docs_deploy_key
+            # GitHub's published ed25519 host key, pinned rather than scanned, so the clone
+            # cannot be pointed at an impostor host.
+            echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
+            export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/docs_deploy_key -o IdentitiesOnly=yes"
+            export GIT_BASE="ssh://git@github.com"
+          fi
+          npm run fetch
 
       - name: Generate the API reference
         run: npm run gen-api

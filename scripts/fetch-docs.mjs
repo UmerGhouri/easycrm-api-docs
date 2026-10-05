@@ -12,12 +12,13 @@
  * /api-integration/… rather than /EasyCRM/api-integration/….
  *
  * Env:
- *   DOCS_TOKEN      token with READ access to the source repo (required - it is private)
+ *   DOCS_TOKEN      token with READ access to the source repo (required unless GIT_BASE is set)
  *   DOCS_ORG        owner of the source repo      (default: UmerGhouri)
  *   DOCS_REPO       source repo                   (default: EasyCRM)
  *   DOCS_BRANCH     branch to read docs from      (default: main)
  *   SITE_REPO_URL   this repo, for the landing page's Edit link
- *   GIT_BASE        clone host, for tests         (default: authenticated github.com)
+ *   GIT_BASE        clone host. The workflow sets it to ssh://git@github.com when a read-only
+ *                   deploy key is configured; also used by tests (default: token-authenticated github.com)
  */
 import { execSync } from "node:child_process";
 import fs from "node:fs";
@@ -35,7 +36,7 @@ const BRANCH = process.env.DOCS_BRANCH || "main";
 const SITE_REPO_URL = process.env.SITE_REPO_URL || "https://github.com/UmerGhouri/easycrm-api-docs";
 const OUT = path.resolve("docs");
 
-if (!TOKEN) { console.error("DOCS_TOKEN is required: the source repo is private."); process.exit(1); }
+if (!TOKEN && !process.env.GIT_BASE) { console.error("DOCS_TOKEN (or a deploy key via GIT_BASE) is required: the source repo is private."); process.exit(1); }
 
 const base = process.env.GIT_BASE || `https://x-access-token:${TOKEN}@github.com`;
 const htmlUrl = `https://github.com/${ORG}/${REPO}`;

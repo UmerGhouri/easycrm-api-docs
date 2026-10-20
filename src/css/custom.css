@@ -83,7 +83,9 @@
   --ifm-table-border-color: var(--oo-line);
   --ifm-table-head-background: var(--oo-surface-2);
   --ifm-table-stripe-background: transparent;
-  --ifm-blockquote-color: var(--oo-black);
+  /* follow the body text colour: --oo-black is the same in both themes, so pinning to it
+     put near-black text on the dark blockquote background - measured 1.09:1. */
+  --ifm-blockquote-color: var(--ifm-font-color-base);
   --ifm-blockquote-border-color: transparent;
   --ifm-hr-background-color: var(--oo-line);
   --ifm-global-radius: 12px;
@@ -121,7 +123,9 @@ html[data-theme="dark"] {
   --ifm-color-primary-light: #a7b7fc;
   --ifm-color-primary-lighter: #b5c3fc;
   --ifm-color-primary-lightest: #e0e6fe;
-  --ifm-link-color: var(--oo-link);
+  --ifm-link-color: var(--oo-link);
+  /* without this, hover fell back to the light value and made a link DARKER in dark mode. */
+  --ifm-link-hover-color: var(--oo-link);
   --ifm-background-color: #090608;
   --ifm-background-surface-color: #0f0c10;
   --ifm-font-color-base: #f0f0f0;
@@ -334,11 +338,16 @@ pre code { border: 0; }
 .theme-admonition-note svg, .theme-admonition-info svg, .theme-admonition-tip svg { fill: var(--oo-blue); }
 .theme-admonition-warning, .theme-admonition-danger, .theme-admonition-caution { background: var(--oo-black); color: #e6e4e8; box-shadow: inset 3px 0 0 var(--oo-lime); }
 .theme-admonition-warning [class*="admonitionHeading"], .theme-admonition-danger [class*="admonitionHeading"], .theme-admonition-caution [class*="admonitionHeading"] { color: var(--oo-white); }
+/* caution shares the dark card above, so it must share every text rule that goes with it.
+   It was listed for the background and omitted from strong, code and links, which left
+   inline code inside a :::caution at 1.09:1 in light mode - dark text on the dark card. */
 .theme-admonition-warning svg, .theme-admonition-danger svg, .theme-admonition-caution svg { fill: var(--oo-lime); }
-.theme-admonition-warning strong, .theme-admonition-danger strong { color: var(--oo-white); }
-.theme-admonition-warning code, .theme-admonition-danger code { background: #221e23; border-color: #2f2a30; color: var(--oo-lime); }
-.theme-admonition-warning a, .theme-admonition-danger a { color: var(--oo-lime); }
-[data-theme="dark"] .theme-admonition-warning, [data-theme="dark"] .theme-admonition-danger { background: #151216; border: 1px solid #2a262b; }
+.theme-admonition-warning strong, .theme-admonition-danger strong, .theme-admonition-caution strong { color: var(--oo-white); }
+.theme-admonition-warning code, .theme-admonition-danger code, .theme-admonition-caution code { background: #221e23; border-color: #2f2a30; color: var(--oo-lime); }
+.theme-admonition-warning a, .theme-admonition-danger a, .theme-admonition-caution a { color: var(--oo-lime); }
+html[data-theme="dark"] .theme-admonition-warning,
+html[data-theme="dark"] .theme-admonition-danger,
+html[data-theme="dark"] .theme-admonition-caution { background: #151216; border: 1px solid #2a262b; }
 
 /* right rail */
 .table-of-contents { font-size: 13.5px; border-left: 1px solid var(--oo-line); }
@@ -391,3 +400,20 @@ pre code { border: 0; }
   .markdown table th, .markdown table td { padding: 11px 14px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* ---------- the API code-sample panel ----------
+   It is dark in both themes, because it mirrors a code block. Its controls and tab labels,
+   however, took their colour from the theme, so in light mode they rendered dark on dark.
+   Measured on the live site: the expand/collapse button at 1.04:1 and the language tabs at
+   2.81:1. Pinning them to the code-block ink works for both themes, since the surface under
+   them is dark either way. */
+.openapi-explorer__expand-details-btn,
+.openapi-tabs__code-list-container,
+.openapi-tabs__code-list-container *,
+.openapi-tabs__schema-list-container,
+.openapi-tabs__schema-list-container * { color: var(--oo-code-ink); }
+/* the selected language tab marks itself with .active, not with a --active modifier, so the
+   rule above never reached it and it stayed at 2.81:1 on the dark panel. */
+.openapi-tabs__code-item--active,
+.openapi-tabs__code-list-container .tabs__item.active,
+.openapi-tabs__code-list-container .tabs__item.active * { color: var(--oo-white) !important; }

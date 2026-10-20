@@ -30,9 +30,13 @@
   --oo-code-ink: #f0f0f0;
   --oo-code-line: #1f1c20;
   --oo-note-bg: #eef1fe;
-  --oo-hero-bg: #090608;
+  /* a dark panel in both themes, but charcoal rather than pure black in light mode: against
+     a white page #090608 read as a stray black stripe instead of a deliberate panel. */
+  --oo-hero-bg: #2a262b;
   --oo-hero-ink: #ffffff;
-  --oo-active-bg: #090608;
+  /* the same accent in both themes: this was black in light and brand blue in dark, which
+     gave one state two identities. */
+  --oo-active-bg: #4c6cf8;
   --oo-active-ink: #ffffff;
 
   /* Infima mapping */

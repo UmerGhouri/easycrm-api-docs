@@ -13,7 +13,7 @@ const { apiConfig } = require("./scripts/api-specs.js");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "EasyCRM API Documentation",
-  tagline: "Read your portal data from another system",
+  tagline: "Read and write your portal data from another system",
   favicon: "img/favicon.svg",
 
   // url is the ORIGIN; baseUrl is the path under it.

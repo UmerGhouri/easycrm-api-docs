@@ -93,7 +93,15 @@
   --doc-sidebar-width: 272px;
 }
 
-[data-theme="dark"] {
+/* html[data-theme=...] and not [data-theme=...]: Infima declares its own dark values on
+   html[data-theme='dark'], which is MORE specific than a bare attribute selector and therefore
+   wins however late this file loads. With the bare selector, --ifm-background-color,
+   --ifm-background-surface-color, --ifm-code-background, --ifm-color-emphasis-700 and
+   --ifm-toc-border-color below were all silently discarded, so dark mode drew the page on
+   Infima's generic #1b1b1d while the navbar, footer, hero and code blocks used the brand
+   near-black - two different blacks on one page. Light mode was unaffected because there both
+   sides sit on :root at equal specificity, so source order decides and this file wins. */
+html[data-theme="dark"] {
   --oo-soft: #151216;
   --oo-surface-2: #100d11;
   --oo-muted: #a8a5ab;
@@ -255,6 +263,16 @@ article:not(:has(.theme-doc-breadcrumbs)) .theme-doc-markdown > header { padding
 
 /* ---------- prose ---------- */
 .markdown { max-width: 760px; }
+
+/* 760px is a reading measure for prose, and the wrong thing entirely on a generated API
+   reference page: that layout puts its description and its code-sample panel in a two-column
+   row INSIDE .markdown, so capping the parent squeezed both panels into the left half and left
+   the right of the page empty. The openapi theme marks those pages with .theme-api-markdown,
+   which prose pages never carry, so the cap is lifted there and only there. The inner column
+   also carries .markdown, so it has to be released too. */
+.theme-doc-markdown:has(.theme-api-markdown),
+.theme-api-markdown,
+.theme-api-markdown .markdown { max-width: none; }
 .markdown h1, .markdown h2, .markdown h3, .markdown h4 { font-family: var(--ifm-heading-font-family); }
 .markdown h2 { font-size: 27px; line-height: 1.2; letter-spacing: -0.01em; margin: 56px 0 14px; }
 .markdown h3 { font-size: 19.5px; line-height: 1.3; margin: 36px 0 10px; }

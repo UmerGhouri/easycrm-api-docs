@@ -18,16 +18,21 @@ has given them, and nothing else.
 
 ## What the API is for
 
-The API lets another system read that same data directly, instead of a person opening the
-portal and reading it off the screen. It is the right tool when you want to pull portal data
-into a warehouse, a reporting tool, a spreadsheet on a schedule, or an application of your own.
+The API lets another system work with that same data directly, instead of a person opening the
+portal and doing it by hand. It is the right tool when you want to pull portal data into a
+warehouse, a reporting tool or a spreadsheet on a schedule — or to feed records back in from an
+application of your own.
 
-Two things are worth knowing before you start:
+Three things are worth knowing before you start:
 
-- **It is read-only.** The API returns records. It cannot create, change or delete anything.
+- **It reads and writes, one record at a time.** `GET` to read, `POST` to create, `PATCH` to
+  change the fields you send, `DELETE` to remove. There are no arrays and no bulk operations.
+- **Every object starts read-only.** An administrator turns on create, update and delete
+  separately, per object, so a key can read Accounts and still write Contacts.
 - **It sees exactly what its user sees.** A key belongs to one portal user and inherits their
-  permissions, so it can never read data that person could not already open in the portal. An
-  administrator narrows it further by choosing which objects and fields the key may return.
+  permissions, so it can never read or change anything that person could not already do in the
+  portal. An administrator narrows it further by choosing which objects and fields the key may
+  return, and which of those fields a write may set.
 
 ## What you need before you can call it
 
@@ -46,8 +51,11 @@ what they need to do.
 ## Start here
 
 - **[Using the API](./api-integration/using-the-api.md)** — your first request, start to finish
+- **[Creating](./api-integration/creating-records.md)**, **[updating](./api-integration/updating-records.md)**
+  and **[deleting](./api-integration/deleting-records.md)** records — writing data back
 - **[Filters and sorting](./api-integration/filters-and-sorting.md)** — narrowing what comes back
 - **[Paging](./api-integration/paging.md)** — reading more than one page of results
+- **[Errors and limits](./api-integration/errors-and-limits.md)** — every refusal, and the hourly ceilings
 - **[API reference](./api/easycrm-portal-api)** — every parameter and response, with copyable samples
 
 Administrators have two pages of their own: [Setting up a key](./api-integration/admin-setup.md)
